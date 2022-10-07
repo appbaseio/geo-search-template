@@ -118,6 +118,11 @@ function GeoResultsLayout({
         defaultPreferences.resultSettings.mapComponent,
     );
 
+    const userDefinedFields = get(
+        resultSettings,
+        'fields.userDefinedFields',
+        {},
+    );
     const defaultZoom = get(
         resultSettings,
         'defaultZoom',
@@ -175,27 +180,33 @@ function GeoResultsLayout({
                     onPopoverClick={(item) => {
                         const handle = isPreview
                             ? ''
-                            : get(item, get(resultSettings, 'fields.handle'));
+                            : get(
+                                  item,
+                                  get(
+                                      resultSettings,
+                                      'fields.handle.dataField',
+                                  ),
+                              );
 
                         const image = get(
                             item,
-                            get(resultSettings, 'fields.image'),
+                            get(resultSettings, 'fields.image.dataField'),
                         );
                         const title = get(
                             item,
-                            get(resultSettings, 'fields.title'),
+                            get(resultSettings, 'fields.title.dataField'),
                         );
                         const description = get(
                             item,
-                            get(resultSettings, 'fields.description'),
+                            get(resultSettings, 'fields.description.dataField'),
                         );
                         const price = get(
                             item,
-                            get(resultSettings, 'fields.price'),
+                            get(resultSettings, 'fields.price.dataField'),
                         );
                         const priceUnit = get(
                             resultSettings,
-                            'fields.priceUnit',
+                            'fields.priceUnit.dataField',
                         );
                         const { variants } = item;
 
@@ -278,7 +289,35 @@ function GeoResultsLayout({
                                               }`
                                             : null}
                                     </div>
-
+                                    {Object.keys(userDefinedFields).map(
+                                        (field) => {
+                                            const {
+                                                dataField,
+                                            } = userDefinedFields[field];
+                                            return (
+                                                <div
+                                                    style={{
+                                                        margin: '5px 0px',
+                                                    }}
+                                                >
+                                                    <span
+                                                        style={{
+                                                            fontWeight: 'bold',
+                                                        }}
+                                                    >
+                                                        {field}:
+                                                    </span>{' '}
+                                                    {
+                                                        item[
+                                                            dataField.split(
+                                                                '.keyword',
+                                                            )[0]
+                                                        ]
+                                                    }
+                                                </div>
+                                            );
+                                        },
+                                    )}
                                     {redirectToProduct ? (
                                         <Button
                                             type="primary"
@@ -367,27 +406,33 @@ function GeoResultsLayout({
                     onPopoverClick={(item) => {
                         const handle = isPreview
                             ? ''
-                            : get(item, get(resultSettings, 'fields.handle'));
+                            : get(
+                                  item,
+                                  get(
+                                      resultSettings,
+                                      'fields.handle.dataField',
+                                  ),
+                              );
 
                         const image = get(
                             item,
-                            get(resultSettings, 'fields.image'),
+                            get(resultSettings, 'fields.image.dataField'),
                         );
                         const title = get(
                             item,
-                            get(resultSettings, 'fields.title'),
+                            get(resultSettings, 'fields.title.dataField'),
                         );
                         const description = get(
                             item,
-                            get(resultSettings, 'fields.description'),
+                            get(resultSettings, 'fields.description.dataField'),
                         );
                         const price = get(
                             item,
-                            get(resultSettings, 'fields.price'),
+                            get(resultSettings, 'fields.price.dataField'),
                         );
                         const priceUnit = get(
                             resultSettings,
-                            'fields.priceUnit',
+                            'fields.priceUnit.dataField',
                         );
                         const { variants } = item;
 
@@ -470,7 +515,36 @@ function GeoResultsLayout({
                                               }`
                                             : null}
                                     </div>
+                                    {Object.keys(userDefinedFields).map(
+                                        (field) => {
+                                            const {
+                                                dataField,
+                                            } = userDefinedFields[field];
 
+                                            return (
+                                                <div
+                                                    style={{
+                                                        margin: '5px 0px',
+                                                    }}
+                                                >
+                                                    <span
+                                                        style={{
+                                                            fontWeight: 'bold',
+                                                        }}
+                                                    >
+                                                        {field}:
+                                                    </span>{' '}
+                                                    {
+                                                        item[
+                                                            dataField.split(
+                                                                '.keyword',
+                                                            )[0]
+                                                        ]
+                                                    }
+                                                </div>
+                                            );
+                                        },
+                                    )}
                                     {redirectToProduct ? (
                                         <Button
                                             type="primary"

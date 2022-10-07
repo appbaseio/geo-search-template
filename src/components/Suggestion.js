@@ -53,15 +53,15 @@ const Suggestion = ({
     const { _source } = suggestion;
     const title = get(
         _source,
-        get(fields, 'title', shopifyDefaultFields.title),
+        get(fields, 'title.dataField', shopifyDefaultFields.title),
     );
     const image = get(
         _source,
-        get(fields, 'image', shopifyDefaultFields.image),
+        get(fields, 'image.dataField', shopifyDefaultFields.image),
     );
     const description = get(
         _source,
-        get(fields, 'description', shopifyDefaultFields.description),
+        get(fields, 'description.dataField', shopifyDefaultFields.description),
     );
 
     return (
