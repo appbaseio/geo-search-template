@@ -269,7 +269,6 @@ export const getReactDependenciesFromPreferences = (
     }
     return react;
 };
-
 export const getSearchPreferences = () => {
     if (window.APPBASE_SEARCH_PREFERENCES || appbasePrefs) {
         try {
@@ -277,7 +276,10 @@ export const getSearchPreferences = () => {
                 window.APPBASE_SEARCH_PREFERENCES || appbasePrefs,
             );
 
-            if (typeof prefs === 'string') return defaultTemplatePreferences;
+            if (typeof prefs === 'string') {
+                // eslint-disable-next-line no-use-before-define
+                return transformPreferences(defaultTemplatePreferences);
+            }
 
             // eslint-disable-next-line no-use-before-define
             return transformPreferences(prefs);
@@ -292,7 +294,6 @@ export const getSearchPreferences = () => {
     // eslint-disable-next-line no-use-before-define
     return transformPreferences(defaultTemplatePreferences);
 };
-
 export const getRecommendationsPreferences = () => {
     let preferences = {};
     if (window.APPBASE_RECOMMENDATIONS_PREFERENCES || appbasePrefs) {
@@ -383,42 +384,132 @@ function parseJSON(str) {
     return parsedObj;
 }
 
+function normalizePreferences(preferences) {
+    const clonePreferences = { ...preferences };
+    Object.keys(clonePreferences.pageSettings.pages).forEach((page) => {
+        const pagePreferences = clonePreferences.pageSettings.pages[page] || {};
+        const { componentSettings } = pagePreferences || {};
+        const { result: resultComponent, search: searchComponent } =
+            componentSettings || {};
+        if (resultComponent) {
+            const hasOldStructure =
+                typeof resultComponent.fields.title === 'string';
+            if (hasOldStructure) {
+                Object.keys(resultComponent.fields)
+                    .filter((field) => field !== 'userDefinedFields')
+                    .forEach((field) => {
+                        if (resultComponent.fields[field]) {
+                            resultComponent.fields[field] = {
+                                dataField: resultComponent.fields[field],
+                                highlight: false,
+                            };
+                        }
+                    });
+            }
+        }
+        if (searchComponent) {
+            const hasOldStructure =
+                typeof searchComponent.fields.title === 'string';
+            if (hasOldStructure) {
+                Object.keys(searchComponent.fields)
+                    .filter((field) => field !== 'userDefinedFields')
+                    .forEach((field) => {
+                        if (searchComponent.fields[field]) {
+                            searchComponent.fields[field] = {
+                                dataField: searchComponent.fields[field],
+                                highlight: false,
+                            };
+                        }
+                    });
+            }
+        }
+    });
+    return clonePreferences;
+}
+
 function transformPreferences(preferences) {
-    if (preferences.globalSettings && preferences.globalSettings.endpoint) {
-        const { endpoint } = preferences.globalSettings;
-        const { appbaseSettings } = preferences;
+    const normalizedPreferences = normalizePreferences(preferences);
+    if (
+        normalizedPreferences.globalSettings &&
+        normalizedPreferences.globalSettings.endpoint
+    ) {
+        const { endpoint } = normalizedPreferences.globalSettings;
+        const { appbaseSettings } = normalizedPreferences;
         // We may get a url relative to cluster
         const isRelative = endpoint.url[0] === '/';
 
-        preferences.globalSettings.endpoint = {
+        normalizedPreferences.globalSettings.endpoint = {
             url: isRelative ? appbaseSettings.url + endpoint.url : endpoint.url,
             headers: parseJSON(endpoint.headers),
             method: endpoint.method,
         };
     }
-    if (preferences.pageSettings) {
-        Object.keys(preferences.pageSettings.pages).forEach((page) => {
-            const pagePreferences = preferences.pageSettings.pages[page];
-            if (
-                pagePreferences.indexSettings &&
-                pagePreferences.indexSettings.endpoint
-            ) {
-                const { endpoint } = pagePreferences.indexSettings;
-                const { appbaseSettings } = preferences;
-                // We may get a url relative to cluster
-                const isRelative = endpoint.url[0] === '/';
+    if (normalizedPreferences.pageSettings) {
+        Object.keys(normalizedPreferences.pageSettings.pages).forEach(
+            (page) => {
+                const pagePreferences =
+                    normalizedPreferences.pageSettings.pages[page] || {};
+                const { componentSettings } = pagePreferences || {};
+                const { result: resultComponent, search: searchComponent } =
+                    componentSettings || {};
 
-                pagePreferences.indexSettings.endpoint = {
-                    url: isRelative
-                        ? appbaseSettings.url + endpoint.url
-                        : endpoint.url,
-                    headers: parseJSON(endpoint.headers),
-                    method: endpoint.method,
-                };
-            }
-        });
+                if (
+                    pagePreferences.indexSettings &&
+                    pagePreferences.indexSettings.endpoint
+                ) {
+                    const { endpoint } = pagePreferences.indexSettings;
+                    const { appbaseSettings } = normalizedPreferences;
+                    // We may get a url relative to cluster
+                    const isRelative = endpoint.url[0] === '/';
+
+                    pagePreferences.indexSettings.endpoint = {
+                        url: isRelative
+                            ? appbaseSettings.url + endpoint.url
+                            : endpoint.url,
+                        headers: parseJSON(endpoint.headers),
+                        method: endpoint.method,
+                    };
+                }
+                if (searchComponent) {
+                    let highlightConfig = { fields: {} };
+
+                    Object.keys(
+                        resultComponent.fields.userDefinedFields || {},
+                    ).forEach((field) => {
+                        if (
+                            resultComponent.fields.userDefinedFields[field] &&
+                            resultComponent.fields.userDefinedFields[field]
+                                .highlight
+                        ) {
+                            highlightConfig.fields[field] = {};
+                        }
+                    });
+                    searchComponent.rsConfig.highlight =
+                        componentSettings.result.resultHighlight;
+
+                    Object.keys(resultComponent.fields)
+                        .filter((field) => field !== 'userDefinedFields')
+                        .forEach((field) => {
+                            if (
+                                typeof resultComponent.fields[field] ===
+                                    'object' &&
+                                resultComponent.fields[field] &&
+                                resultComponent.fields[field].highlight
+                            ) {
+                                highlightConfig.fields[field] = {};
+                            }
+                        });
+                    highlightConfig = Object.keys(highlightConfig.fields).length
+                        ? highlightConfig
+                        : undefined;
+                    searchComponent.rsConfig.highlightConfig = resultComponent.resultHighlight
+                        ? highlightConfig
+                        : undefined;
+                }
+            },
+        );
     }
 
-    return preferences;
+    return normalizedPreferences;
 }
 /* eslint-enable */
