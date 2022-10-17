@@ -142,6 +142,12 @@
             "typography": {
                 "fontFamily": "default"
             }
+        },
+        "meta": {
+            "bodyBackgroundColor": "#fff",
+            "navbarBackgroundColor": "#0B6AFF",
+            "linkColor": "#0B6AFF",
+            "fontWeight": 400
         }
     },
     "globalSettings": {
