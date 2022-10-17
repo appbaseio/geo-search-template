@@ -551,6 +551,20 @@ class Search extends Component {
                 <Global
                     styles={css`
                         ${get(this.themeSettings, 'customCss', '')}
+                        body {
+                            font-weight: ${this.themeSettings.meta.fontWeight};
+                            font-family: ${this.themeSettings.rsConfig
+                                .typography.fontFamily};
+                            color: ${this.themeSettings.rsConfig.colors
+                                .textColor};
+                            background-color: ${this.themeSettings.meta
+                                .bodyBackgroundColor};
+                        }
+                        h1,
+                        h2,
+                        h3 {
+                            color: ${this.themeSettings.rsConfig.titleColor};
+                        }
                     `}
                 />
                 {isMobile && dynamicFacets.length ? (
