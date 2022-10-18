@@ -206,7 +206,7 @@ function GeoResultsLayout({
                         );
                         const priceUnit = get(
                             resultSettings,
-                            'fields.priceUnit.dataField',
+                            'fields.priceUnit',
                         );
                         const { variants } = item;
 
@@ -432,7 +432,7 @@ function GeoResultsLayout({
                         );
                         const priceUnit = get(
                             resultSettings,
-                            'fields.priceUnit.dataField',
+                            'fields.priceUnit',
                         );
                         const { variants } = item;
 
