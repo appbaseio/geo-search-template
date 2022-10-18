@@ -142,10 +142,7 @@ export default function ListLayout({
                         item,
                         get(resultSettings, 'fields.price.dataField'),
                     );
-                    const priceUnit = get(
-                        resultSettings,
-                        'fields.priceUnit.dataField',
-                    );
+                    const priceUnit = get(resultSettings, 'fields.priceUnit');
                     const cssSelector = get(
                         resultSettings,
                         'fields.cssSelector',
