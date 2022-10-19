@@ -405,6 +405,22 @@ function normalizePreferences(preferences) {
                             };
                         }
                     });
+                if (resultComponent.displayFields) {
+                    Object.keys(resultComponent.displayFields).forEach(
+                        (category) => {
+                            const categoryFields =
+                                resultComponent.displayFields[category];
+                            Object.keys(categoryFields).forEach((field) => {
+                                if (categoryFields[field]) {
+                                    categoryFields[field] = {
+                                        dataField: categoryFields[field],
+                                        highlight: false,
+                                    };
+                                }
+                            });
+                        },
+                    );
+                }
             }
         }
         if (searchComponent) {
@@ -421,6 +437,22 @@ function normalizePreferences(preferences) {
                             };
                         }
                     });
+                if (searchComponent.displayFields) {
+                    Object.keys(searchComponent.displayFields).forEach(
+                        (category) => {
+                            const categoryFields =
+                                searchComponent.displayFields[category];
+                            Object.keys(categoryFields).forEach((field) => {
+                                if (categoryFields[field]) {
+                                    categoryFields[field] = {
+                                        dataField: categoryFields[field],
+                                        highlight: false,
+                                    };
+                                }
+                            });
+                        },
+                    );
+                }
             }
         }
     });
@@ -452,6 +484,7 @@ function transformPreferences(preferences) {
                 const { componentSettings } = pagePreferences || {};
                 const { result: resultComponent, search: searchComponent } =
                     componentSettings || {};
+                let highlightConfig = { fields: {} };
 
                 if (
                     pagePreferences.indexSettings &&
@@ -470,38 +503,66 @@ function transformPreferences(preferences) {
                         method: endpoint.method,
                     };
                 }
-                if (searchComponent) {
-                    let highlightConfig = { fields: {} };
-
+                if (resultComponent) {
                     Object.keys(
                         resultComponent.fields.userDefinedFields || {},
                     ).forEach((field) => {
                         if (
                             resultComponent.fields.userDefinedFields[field] &&
                             resultComponent.fields.userDefinedFields[field]
-                                .highlight
+                                .highlight &&
+                            resultComponent.fields.userDefinedFields[field]
+                                .dataField
                         ) {
-                            highlightConfig.fields[field] = {};
+                            const {
+                                dataField,
+                            } = resultComponent.fields.userDefinedFields[field];
+                            highlightConfig.fields[dataField] = {};
                         }
                     });
-                    searchComponent.rsConfig.highlight =
-                        componentSettings.result.resultHighlight;
-
                     Object.keys(resultComponent.fields)
                         .filter((field) => field !== 'userDefinedFields')
                         .forEach((field) => {
                             if (
-                                typeof resultComponent.fields[field] ===
-                                    'object' &&
                                 resultComponent.fields[field] &&
-                                resultComponent.fields[field].highlight
+                                resultComponent.fields[field].highlight &&
+                                resultComponent.fields[field].dataField
                             ) {
-                                highlightConfig.fields[field] = {};
+                                const { dataField } = resultComponent.fields[
+                                    field
+                                ];
+                                highlightConfig.fields[dataField] = {};
                             }
                         });
+                    Object.keys(resultComponent.displayFields || {}).forEach(
+                        (category) => {
+                            const categoryFields =
+                                resultComponent.displayFields[category];
+                            Object.keys(categoryFields).forEach((field) => {
+                                if (
+                                    categoryFields[field] &&
+                                    categoryFields[field].highlight &&
+                                    categoryFields[field].dataField
+                                ) {
+                                    const { dataField } = categoryFields[field];
+                                    highlightConfig.fields[dataField] = {};
+                                }
+                            });
+                        },
+                    );
                     highlightConfig = Object.keys(highlightConfig.fields).length
                         ? highlightConfig
                         : undefined;
+                }
+
+                if (resultComponent) {
+                    resultComponent.rsConfig.highlightConfig = resultComponent.resultHighlight
+                        ? highlightConfig
+                        : undefined;
+                }
+                if (searchComponent) {
+                    searchComponent.rsConfig.highlight =
+                        componentSettings.result.resultHighlight;
                     searchComponent.rsConfig.highlightConfig = resultComponent.resultHighlight
                         ? highlightConfig
                         : undefined;
