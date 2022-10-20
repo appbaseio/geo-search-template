@@ -1056,213 +1056,221 @@ const FiltersN = ({
                             }}
                             className="filter"
                         >
-                            {
-                                // eslint-disable-next-line no-nested-ternary
-                                type === 'list' ? (
-                                    <MultiList
-                                        key={get(
-                                            listComponent,
-                                            'rsConfig.componentId',
-                                        )}
-                                        innerClass={{
-                                            input: 'list-input',
-                                        }}
-                                        componentId={get(
-                                            listComponent,
-                                            'rsConfig.componentId',
-                                        )}
-                                        URLParams
-                                        loader={
-                                            <div
-                                                css={loaderStyle}
-                                                // eslint-disable-next-line
-                                                dangerouslySetInnerHTML={{
-                                                    __html: DOMPurify.sanitize(
-                                                        get(
-                                                            listComponent,
-                                                            'customMessages.loading',
-                                                            'Loading options',
+                            <div
+                                style={{
+                                    color: get(theme, 'colors.textColor'),
+                                }}
+                            >
+                                {
+                                    // eslint-disable-next-line no-nested-ternary
+                                    type === 'list' ? (
+                                        <MultiList
+                                            key={get(
+                                                listComponent,
+                                                'rsConfig.componentId',
+                                            )}
+                                            innerClass={{
+                                                input: 'list-input',
+                                            }}
+                                            componentId={get(
+                                                listComponent,
+                                                'rsConfig.componentId',
+                                            )}
+                                            URLParams
+                                            loader={
+                                                <div
+                                                    css={loaderStyle}
+                                                    // eslint-disable-next-line
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: DOMPurify.sanitize(
+                                                            get(
+                                                                listComponent,
+                                                                'customMessages.loading',
+                                                                'Loading options',
+                                                            ),
                                                         ),
-                                                    ),
-                                                }}
-                                            />
-                                        }
-                                        renderNoResults={() => (
-                                            <div
-                                                // eslint-disable-next-line
-                                                dangerouslySetInnerHTML={{
-                                                    __html: DOMPurify.sanitize(
-                                                        get(
-                                                            listComponent,
-                                                            'customMessages.noResults',
-                                                            'No items Found',
+                                                    }}
+                                                />
+                                            }
+                                            renderNoResults={() => (
+                                                <div
+                                                    // eslint-disable-next-line
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: DOMPurify.sanitize(
+                                                            get(
+                                                                listComponent,
+                                                                'customMessages.noResults',
+                                                                'No items Found',
+                                                            ),
                                                         ),
+                                                    }}
+                                                />
+                                            )}
+                                            showCount={themeType !== 'minimal'}
+                                            showCheckbox={
+                                                themeType !== 'minimal'
+                                            }
+                                            aggregationSize={get(
+                                                listComponent,
+                                                'rsConfig.size',
+                                            )}
+                                            {...listComponent.rsConfig}
+                                            dataField={get(
+                                                listComponent,
+                                                'rsConfig.dataField',
+                                            )}
+                                            css={getFontFamily}
+                                            react={{
+                                                and: getReactDependenciesFromPreferences(
+                                                    preferences,
+                                                    get(
+                                                        listComponent,
+                                                        'rsConfig.componentId',
                                                     ),
-                                                }}
-                                            />
-                                        )}
-                                        showCount={themeType !== 'minimal'}
-                                        showCheckbox={themeType !== 'minimal'}
-                                        aggregationSize={get(
-                                            listComponent,
-                                            'rsConfig.size',
-                                        )}
-                                        {...listComponent.rsConfig}
-                                        dataField={get(
-                                            listComponent,
-                                            'rsConfig.dataField',
-                                        )}
-                                        css={getFontFamily}
-                                        react={{
-                                            and: getReactDependenciesFromPreferences(
-                                                preferences,
+                                                ),
+                                            }}
+                                            filterLabel={
                                                 get(
                                                     listComponent,
-                                                    'rsConfig.componentId',
+                                                    'rsConfig.filterLabel',
+                                                    '',
+                                                ) ||
+                                                get(
+                                                    listComponent,
+                                                    'rsConfig.title',
+                                                    '',
+                                                )
+                                            }
+                                            title=""
+                                        />
+                                    ) : listComponent?.rsConfig?.startValue &&
+                                      listComponent?.rsConfig?.endValue ? (
+                                        <RangeInput
+                                            key={get(
+                                                listComponent,
+                                                'rsConfig.componentId',
+                                                '',
+                                            )}
+                                            componentId={get(
+                                                listComponent,
+                                                'rsConfig.componentId',
+                                                '',
+                                            )}
+                                            dataField={get(
+                                                listComponent,
+                                                'rsConfig.dataField',
+                                                '',
+                                            )}
+                                            range={{
+                                                start:
+                                                    type === 'date'
+                                                        ? new Date(
+                                                              get(
+                                                                  listComponent,
+                                                                  'rsConfig.startValue',
+                                                                  '',
+                                                              ),
+                                                          )
+                                                        : parseInt(
+                                                              get(
+                                                                  listComponent,
+                                                                  'rsConfig.startValue',
+                                                                  '',
+                                                              ),
+                                                              10,
+                                                          ),
+                                                end:
+                                                    type === 'date'
+                                                        ? new Date(
+                                                              get(
+                                                                  listComponent,
+                                                                  'rsConfig.endValue',
+                                                                  '',
+                                                              ),
+                                                          )
+                                                        : parseInt(
+                                                              get(
+                                                                  listComponent,
+                                                                  'rsConfig.endValue',
+                                                                  '',
+                                                              ),
+                                                              10,
+                                                          ),
+                                            }}
+                                            rangeLabels={{
+                                                start: get(
+                                                    listComponent,
+                                                    'rsConfig.startLabel',
+                                                    '',
                                                 ),
-                                            ),
-                                        }}
-                                        filterLabel={
-                                            get(
+                                                end: get(
+                                                    listComponent,
+                                                    'rsConfig.endLabel',
+                                                    '',
+                                                ),
+                                            }}
+                                            showHistogram={get(
                                                 listComponent,
-                                                'rsConfig.filterLabel',
-                                                '',
-                                            ) ||
-                                            get(
+                                                'rsConfig.showHistogram',
+                                                false,
+                                            )}
+                                            URLParams
+                                            css={getFontFamily}
+                                            filterLabel={
+                                                get(
+                                                    listComponent,
+                                                    'rsConfig.filterLabel',
+                                                    '',
+                                                ) ||
+                                                get(
+                                                    listComponent,
+                                                    'rsConfig.title',
+                                                    '',
+                                                )
+                                            }
+                                            {...dateProps}
+                                        />
+                                    ) : (
+                                        <DynamicRangeSlider
+                                            key={get(
                                                 listComponent,
-                                                'rsConfig.title',
+                                                'rsConfig.componentId',
                                                 '',
-                                            )
-                                        }
-                                        title=""
-                                    />
-                                ) : listComponent?.rsConfig?.startValue &&
-                                  listComponent?.rsConfig?.endValue ? (
-                                    <RangeInput
-                                        key={get(
-                                            listComponent,
-                                            'rsConfig.componentId',
-                                            '',
-                                        )}
-                                        componentId={get(
-                                            listComponent,
-                                            'rsConfig.componentId',
-                                            '',
-                                        )}
-                                        dataField={get(
-                                            listComponent,
-                                            'rsConfig.dataField',
-                                            '',
-                                        )}
-                                        range={{
-                                            start:
-                                                type === 'date'
-                                                    ? new Date(
-                                                          get(
-                                                              listComponent,
-                                                              'rsConfig.startValue',
-                                                              '',
-                                                          ),
-                                                      )
-                                                    : parseInt(
-                                                          get(
-                                                              listComponent,
-                                                              'rsConfig.startValue',
-                                                              '',
-                                                          ),
-                                                          10,
-                                                      ),
-                                            end:
-                                                type === 'date'
-                                                    ? new Date(
-                                                          get(
-                                                              listComponent,
-                                                              'rsConfig.endValue',
-                                                              '',
-                                                          ),
-                                                      )
-                                                    : parseInt(
-                                                          get(
-                                                              listComponent,
-                                                              'rsConfig.endValue',
-                                                              '',
-                                                          ),
-                                                          10,
-                                                      ),
-                                        }}
-                                        rangeLabels={{
-                                            start: get(
+                                            )}
+                                            componentId={get(
                                                 listComponent,
-                                                'rsConfig.startLabel',
+                                                'rsConfig.componentId',
                                                 '',
-                                            ),
-                                            end: get(
+                                            )}
+                                            dataField={get(
                                                 listComponent,
-                                                'rsConfig.endLabel',
+                                                'rsConfig.dataField',
                                                 '',
-                                            ),
-                                        }}
-                                        showHistogram={get(
-                                            listComponent,
-                                            'rsConfig.showHistogram',
-                                            false,
-                                        )}
-                                        URLParams
-                                        css={getFontFamily}
-                                        filterLabel={
-                                            get(
+                                            )}
+                                            showHistogram={get(
                                                 listComponent,
-                                                'rsConfig.filterLabel',
-                                                '',
-                                            ) ||
-                                            get(
-                                                listComponent,
-                                                'rsConfig.title',
-                                                '',
-                                            )
-                                        }
-                                        {...dateProps}
-                                    />
-                                ) : (
-                                    <DynamicRangeSlider
-                                        key={get(
-                                            listComponent,
-                                            'rsConfig.componentId',
-                                            '',
-                                        )}
-                                        componentId={get(
-                                            listComponent,
-                                            'rsConfig.componentId',
-                                            '',
-                                        )}
-                                        dataField={get(
-                                            listComponent,
-                                            'rsConfig.dataField',
-                                            '',
-                                        )}
-                                        showHistogram={get(
-                                            listComponent,
-                                            'rsConfig.showHistogram',
-                                            false,
-                                        )}
-                                        URLParams
-                                        css={getFontFamily}
-                                        filterLabel={
-                                            get(
-                                                listComponent,
-                                                'rsConfig.filterLabel',
-                                                '',
-                                            ) ||
-                                            get(
-                                                listComponent,
-                                                'rsConfig.title',
-                                                '',
-                                            )
-                                        }
-                                        {...dateProps}
-                                    />
-                                )
-                            }
+                                                'rsConfig.showHistogram',
+                                                false,
+                                            )}
+                                            URLParams
+                                            css={getFontFamily}
+                                            filterLabel={
+                                                get(
+                                                    listComponent,
+                                                    'rsConfig.filterLabel',
+                                                    '',
+                                                ) ||
+                                                get(
+                                                    listComponent,
+                                                    'rsConfig.title',
+                                                    '',
+                                                )
+                                            }
+                                            {...dateProps}
+                                        />
+                                    )
+                                }
+                            </div>
                         </Panel>
                     );
                 })}
