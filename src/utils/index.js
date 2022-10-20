@@ -386,6 +386,12 @@ function parseJSON(str) {
 
 function normalizePreferences(preferences) {
     const clonePreferences = { ...preferences };
+    clonePreferences.themeSettings = {
+        rsConfig: { typography: {}, colors: {} },
+        meta: {},
+        ...clonePreferences.themeSettings,
+    };
+
     Object.keys(clonePreferences.pageSettings.pages).forEach((page) => {
         const pagePreferences = clonePreferences.pageSettings.pages[page] || {};
         const { componentSettings } = pagePreferences || {};
@@ -421,6 +427,9 @@ function normalizePreferences(preferences) {
                         },
                     );
                 }
+                if (!resultComponent.fields.userDefinedFields) {
+                    resultComponent.fields.userDefinedFields = {};
+                }
             }
         }
         if (searchComponent) {
@@ -452,6 +461,9 @@ function normalizePreferences(preferences) {
                             });
                         },
                     );
+                }
+                if (!searchComponent.fields.userDefinedFields) {
+                    searchComponent.fields.userDefinedFields = {};
                 }
             }
         }
@@ -561,9 +573,7 @@ function transformPreferences(preferences) {
                         : undefined;
                 }
                 if (searchComponent) {
-                    searchComponent.rsConfig.highlight =
-                        componentSettings.result.resultHighlight;
-                    searchComponent.rsConfig.highlightConfig = resultComponent.resultHighlight
+                    searchComponent.rsConfig.highlightConfig = searchComponent.highlight
                         ? highlightConfig
                         : undefined;
                 }
