@@ -365,6 +365,7 @@ class Search extends Component {
     renderCategorySearch = (categorySearchProps) => {
         const { toggleFilters, value } = this.state;
         const searchIcon = get(this.searchSettings, 'searchButton.icon', '');
+        const showSearchAs = get(this.searchSettings, 'showSearchAs', 'sticky');
         const searchText = get(
             this.searchSettings,
             'searchButton.text',
@@ -396,7 +397,7 @@ class Search extends Component {
                 URLParams
                 style={{
                     marginBottom: 20,
-                    position: 'sticky',
+                    position: showSearchAs,
                     top: '10px',
                     zIndex: 1000,
                     display: toggleFilters ? 'none' : 'block',
