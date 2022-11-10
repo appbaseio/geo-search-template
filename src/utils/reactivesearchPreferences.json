@@ -1,8 +1,9 @@
 {
-    "name": "Search geo1-demo-app",
+    "name": "Reactivesearch",
     "description": "",
-    "pipeline": "geo1-demo-app",
-    "id": "",
+    "pipeline": "earthquakes",
+    "backend": "elasticsearch",
+    "id": "05e269e4-194b-4580-bfcb-01b43f9d73ec",
     "pageSettings": {
         "currentPage": "home",
         "pages": {
@@ -17,15 +18,34 @@
                             "icon": "",
                             "text": "Click here to search"
                         },
-                        "redirectUrlText": "View Product",
+                        "redirectUrlText": "Open URL",
                         "redirectUrlIcon": "",
+                        "showSearchAs": "sticky",
                         "fields": {
-                            "title": "place",
-                            "description": "magnitude",
-                            "price": "year",
+                            "title": {
+                                "dataField": "place",
+                                "highlight": true
+                            },
+                            "description": {
+                                "dataField": "time",
+                                "highlight": true
+                            },
+                            "price": {
+                                "dataField": "magnitude",
+                                "highlight": false
+                            },
                             "priceUnit": null,
-                            "image": "",
-                            "handle": ""
+                            "image": {
+                                "dataField": "",
+                                "highlight": false
+                            },
+                            "handle": {
+                                "dataField": "",
+                                "highlight": false
+                            },
+                            "handleViewer": "link",
+                            "userDefinedFields": {},
+                            "cssSelector": ""
                         },
                         "rsConfig": {
                             "autosuggest": true,
@@ -39,12 +59,30 @@
                     "result": {
                         "componentType": "REACTIVELIST",
                         "fields": {
-                            "title": "place",
-                            "description": "magnitude",
-                            "price": "year",
+                            "title": {
+                                "dataField": "place",
+                                "highlight": true
+                            },
+                            "description": {
+                                "dataField": "time",
+                                "highlight": true
+                            },
+                            "price": {
+                                "dataField": "magnitude",
+                                "highlight": false
+                            },
                             "priceUnit": null,
-                            "image": "",
-                            "handle": ""
+                            "image": {
+                                "dataField": "",
+                                "highlight": false
+                            },
+                            "handle": {
+                                "dataField": "",
+                                "highlight": false
+                            },
+                            "handleViewer": "link",
+                            "userDefinedFields": {},
+                            "cssSelector": ""
                         },
                         "customMessages": {
                             "resultStats": "[count] products found in [time] ms",
@@ -56,7 +94,7 @@
                             "componentType": "REACTIVE_MAP"
                         },
                         "sortOptionSelector": [],
-                        "resultHighlight": false,
+                        "resultHighlight": true,
                         "layout": "grid",
                         "viewSwitcher": true,
                         "mapLayout": "map",
@@ -65,7 +103,8 @@
                         "defaultZoom": 5,
                         "showSearchAsMove": true,
                         "showMarkerClusters": false,
-                        "mapsAPIkey": "AIzaSyA9JzjtHeXg_C_hh_GdTBdLxREWdj3nsOU"
+                        "mapsAPIkey": "AIzaSyA9JzjtHeXg_C_hh_GdTBdLxREWdj3nsOU",
+                        "displayFields": {}
                     },
                     "Place_0": {
                         "enabled": true,
@@ -74,20 +113,20 @@
                             "noResults": "No items Found"
                         },
                         "rsConfig": {
-                            "componentId": "Place_0",
-                            "filterLabel": "Place",
                             "title": "Place",
                             "dataField": "place.keyword",
+                            "filterLabel": "Place",
                             "filterType": "list",
                             "queryFormat": "or",
                             "sortBy": "count",
+                            "componentType": "MULTILIST",
                             "showCount": true,
                             "showCheckbox": true,
                             "showSearch": true,
                             "showMissing": false,
                             "missingLabel": null,
                             "selectAllLabel": null,
-                            "componentType": "MULTILIST"
+                            "componentId": "Place_0"
                         },
                         "componentType": "MULTILIST",
                         "facetType": "dynamic"
@@ -99,34 +138,64 @@
                             "noResults": "No items Found"
                         },
                         "rsConfig": {
-                            "componentId": "Year_1",
-                            "filterLabel": "Year",
                             "title": "Year",
-                            "dataField": "year",
-                            "filterType": "range",
-                            "missingLabel": null,
-                            "queryFormat": null,
-                            "selectAllLabel": null,
-                            "componentType": "RANGEINPUT",
-                            "endLabel": "End Year",
+                            "dataField": "time",
+                            "filterLabel": "Year",
+                            "filterType": "date",
+                            "startValue": "2000",
                             "endValue": "2017",
-                            "showHistogram": true,
                             "startLabel": "Start Year",
-                            "startValue": "2000"
+                            "endLabel": "End Year",
+                            "showHistogram": true,
+                            "calendarInterval": null,
+                            "componentType": "RANGEINPUT",
+                            "componentId": "Year_1"
                         },
                         "componentType": "RANGEINPUT",
                         "facetType": "dynamic"
+                    }
+                },
+                "indexSettings": {
+                    "index": "earthquakes",
+                    "fusionSettings": {
+                        "app": null,
+                        "profile": null,
+                        "searchProfile": null,
+                        "meta": null
+                    },
+                    "endpoint": {
+                        "url": "/earthquakes/_reactivesearch",
+                        "method": "POST",
+                        "headers": "{\"Authorization\":\"Basic OTkxZWQ2ZjQ0OTdjOmZjZmU3M2UzLTM5YjgtNGQ0MC04MWIxLWI1ZDU1M2U3MzI5Yw==\"}"
                     }
                 }
             }
         },
         "fields": {
-            "description": "magnitude",
-            "handle": "",
-            "image": "",
-            "price": "year",
+            "cssSelector": "",
+            "description": {
+                "dataField": "time",
+                "highlight": false
+            },
+            "handle": {
+                "dataField": "",
+                "highlight": false
+            },
+            "handleViewer": "link",
+            "image": {
+                "dataField": "",
+                "highlight": false
+            },
+            "price": {
+                "dataField": "magnitude",
+                "highlight": false
+            },
             "priceUnit": null,
-            "title": "place"
+            "title": {
+                "dataField": "place",
+                "highlight": false
+            },
+            "userDefinedFields": {}
         }
     },
     "themeSettings": {
@@ -140,13 +209,13 @@
                 "titleColor": "#424242"
             },
             "typography": {
-                "fontFamily": "default"
+                "fontFamily": "sans-serif"
             }
         },
         "meta": {
             "bodyBackgroundColor": "#fff",
-            "navbarBackgroundColor": "#0B6AFF",
-            "linkColor": "#0B6AFF",
+            "navbarBackgroundColor": "#001628",
+            "linkColor": "#3eb0ef",
             "fontWeight": 400
         }
     },
@@ -156,24 +225,44 @@
         "meta": {
             "branding": {
                 "logoUrl": "",
-                "logoWidth": 20,
+                "logoWidth": 200,
                 "logoAlignment": "left"
             },
             "deploySettings": {
-                "versionId": "SY2MUCaQ9Juu1.oOxEH7.ITd0Sm5Zk7f"
+                "versionId": ""
             }
+        },
+        "endpoint": {
+            "url": "/_fusion/_reactivesearch",
+            "method": "",
+            "headers": ""
         }
     },
     "exportSettings": {
         "exportAs": "embed",
-        "credentials": "a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61",
+        "credentials": "991ed6f4497c:fcfe73e3-39b8-4d40-81b1-b5d553e7329c",
         "openAsPage": false,
         "type": "other"
     },
+    "chartSettings": {
+        "charts": []
+    },
     "syncSettings": null,
+    "authenticationSettings": {
+        "enableAuth0": false,
+        "enableProfilePage": true,
+        "profileSettingsForm": {
+            "viewData": true,
+            "editData": true,
+            "closeAccount": true,
+            "editThemeSettings": true,
+            "editSearchPreferences": true
+        },
+        "clientId": "fQ50eZkW3WlFoDEfHAPBxiOTYmzSXZC7"
+    },
     "appbaseSettings": {
-        "index": "geo1-demo-app",
-        "credentials": "a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61",
+        "index": "earthquakes",
+        "credentials": "991ed6f4497c:fcfe73e3-39b8-4d40-81b1-b5d553e7329c",
         "url": "https://appbase-demo-ansible-abxiydt-arc.searchbase.io"
     }
 }
