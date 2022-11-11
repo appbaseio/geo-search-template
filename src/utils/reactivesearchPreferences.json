@@ -34,7 +34,7 @@
                                 "dataField": "magnitude",
                                 "highlight": false
                             },
-                            "priceUnit": null,
+                            "priceUnit": "Magnitude. ",
                             "image": {
                                 "dataField": "",
                                 "highlight": false
@@ -71,7 +71,7 @@
                                 "dataField": "magnitude",
                                 "highlight": false
                             },
-                            "priceUnit": null,
+                            "priceUnit": "Magnitude. ",
                             "image": {
                                 "dataField": "",
                                 "highlight": false
@@ -190,7 +190,7 @@
                 "dataField": "magnitude",
                 "highlight": false
             },
-            "priceUnit": null,
+            "priceUnit": "Magnitude. ",
             "title": {
                 "dataField": "place",
                 "highlight": false
