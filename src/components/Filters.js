@@ -1000,6 +1000,7 @@ const Filters = ({
                                 style={{
                                     color: get(theme, 'colors.textColor'),
                                 }}
+                                data-cy={`${filter}-facet`}
                             >
                                 {/* eslint-disable-next-line no-nested-ternary */}
                                 {facet.enabled ? (
@@ -1010,6 +1011,7 @@ const Filters = ({
                                             componentId={filter}
                                             innerClass={{
                                                 input: 'list-input',
+                                                list: 'multi-list-li',
                                             }}
                                             URLParams
                                             loader={
@@ -1120,6 +1122,10 @@ const Filters = ({
                                                 ),
                                             }}
                                             title=""
+                                            innerClass={{
+                                                'input-container':
+                                                    'range-input-render-input',
+                                            }}
                                             {...dateProps}
                                         />
                                     ) : (
