@@ -17,6 +17,7 @@ import GeoResultsLayout from './GeoLayout/GeoResultsLayout';
 import Filters from './Filters';
 import {
     defaultPreferences,
+    getDataFieldValue,
     getSearchPreferences,
     staticFacetsIds,
 } from '../utils';
@@ -374,6 +375,11 @@ class Search extends Component {
         return (
             <ReactiveComponent
                 preferencesPath={`pageSettings.pages.${this.pageSettings.currentPage}.componentSettings.search`}
+                dataField={[
+                    getDataFieldValue(
+                        get(this.searchSettings, 'fields.title', ''),
+                    ),
+                ]}
                 componentId="search"
                 filterLabel="Search"
                 className="search"
