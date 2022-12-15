@@ -319,9 +319,8 @@ export const RecommendationTypes = {
 
 export const accapi = 'https://accapi.appbase.io';
 
-export const getFieldWithoutKeyword = (fieldWithKeyword = '') => {
-    return fieldWithKeyword.split('.keyword')[0];
-};
+export const getFieldWithoutKeyword = (fieldWithKeyword = '') =>
+    fieldWithKeyword.split('.keyword')[0];
 
 export const CtaActions = {
     REDIRECT_TO_PRODUCT: 'redirect_to_product',
