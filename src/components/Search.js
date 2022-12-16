@@ -15,9 +15,9 @@ import { mediaMax } from '../utils/media';
 import Suggestion from './Suggestion';
 import GeoResultsLayout from './GeoLayout/GeoResultsLayout';
 import Filters from './Filters';
-import FiltersN from './FIltersN';
 import {
     defaultPreferences,
+    getDataFieldValue,
     getSearchPreferences,
     staticFacetsIds,
 } from '../utils';
@@ -375,6 +375,11 @@ class Search extends Component {
         return (
             <ReactiveComponent
                 preferencesPath={`pageSettings.pages.${this.pageSettings.currentPage}.componentSettings.search`}
+                dataField={[
+                    getDataFieldValue(
+                        get(this.searchSettings, 'fields.title', ''),
+                    ),
+                ]}
                 componentId="search"
                 filterLabel="Search"
                 className="search"
@@ -447,7 +452,6 @@ class Search extends Component {
         const { isPreview } = this.props;
         const logoSettings = get(this.globalSettings, 'meta.branding', {});
         const backend = get(this.preferences, 'backend', '');
-        const isFusion = backend === 'fusion';
         const globalEndpoint = get(this.globalSettings, 'endpoint');
         const pageEndpoint = get(
             this.pageSettings,
@@ -467,6 +471,19 @@ class Search extends Component {
             ...pageFusionSettings,
         };
         const endpoint = pageEndpoint || globalEndpoint;
+        const globalmongoDBSettings = get(
+            this.preferences,
+            'globalSettings.meta.mongoDBSettings',
+            {},
+        );
+        const pagemongoDBSettings = get(
+            this.pageSettings,
+            `pages.${this.pageSettings.currentPage}.indexSettings.mongoDBSettings`,
+        );
+        const mongoDBSettings = {
+            ...(globalmongoDBSettings || {}),
+            ...(pagemongoDBSettings || {}),
+        };
         const mapsAPIkey = get(
             this.resultSettings,
             'mapsAPIkey',
@@ -482,11 +499,13 @@ class Search extends Component {
             (component) =>
                 component.componentType === componentTypes.tabDataList,
         ) ?? [])[0];
-        const transformRequest = isFusion
+        const isTransformRequest =
+            backend === 'fusion' || backend === 'mongodb';
+        const transformRequest = isTransformRequest
             ? (props) => {
-                  if (Object.keys(fusionSettings).length) {
-                      const newBody = JSON.parse(props.body);
-                      newBody.metadata = {
+                  const newBody = JSON.parse(props.body);
+                  newBody.metadata = {
+                      ...(backend === 'fusion' && {
                           app: fusionSettings.app,
                           profile: fusionSettings.profile,
                           suggestion_profile: fusionSettings.searchProfile,
@@ -495,13 +514,20 @@ class Search extends Component {
                               'meta.sponsoredProfile',
                               '',
                           ),
-                      };
-                      // eslint-disable-next-line
-                      props.body = JSON.stringify(newBody);
-                  }
+                      }),
+                      ...(backend === 'mongodb' && {
+                          db: mongoDBSettings.db,
+                          collection: mongoDBSettings.collection,
+                      }),
+                  };
+
+                  // eslint-disable-next-line
+                  props.body = JSON.stringify(newBody);
+
                   return props;
               }
             : undefined;
+
         return (
             <ReactiveBase
                 endpoint={endpoint}
@@ -624,31 +650,17 @@ class Search extends Component {
                             gridGap: 20,
                         }}
                     >
-                        {Object.keys(this.pageSettings).length ? (
-                            <Filters
-                                theme={this.theme}
-                                isMobile={this.isMobile}
-                                currency={this.currency}
-                                themeType={this.themeType}
-                                exportType={this.exportType}
-                                preferences={this.preferences}
-                                toggleFilters={toggleFilters}
-                                getFontFamily={this.getFontFamily()}
-                                pageSettings={this.pageSettings}
-                            />
-                        ) : (
-                            <FiltersN
-                                theme={this.theme}
-                                isMobile={this.isMobile}
-                                currency={this.currency}
-                                themeType={this.themeType}
-                                exportType={this.exportType}
-                                preferences={this.preferences}
-                                toggleFilters={toggleFilters}
-                                // dynamicFacets={this.dynamicFacets}
-                                getFontFamily={this.getFontFamily()}
-                            />
-                        )}
+                        <Filters
+                            theme={this.theme}
+                            isMobile={this.isMobile}
+                            currency={this.currency}
+                            themeType={this.themeType}
+                            exportType={this.exportType}
+                            preferences={this.preferences}
+                            toggleFilters={toggleFilters}
+                            getFontFamily={this.getFontFamily()}
+                            pageSettings={this.pageSettings}
+                        />
 
                         <div>
                             {this.themeType === 'minimal' &&
