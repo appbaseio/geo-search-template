@@ -582,4 +582,11 @@ function transformPreferences(preferences) {
 
     return normalizedPreferences;
 }
+
+export const getDataFieldValue = (value) => {
+    if (value && typeof value === 'object') {
+        return value.dataField;
+    }
+    return value;
+};
 /* eslint-enable */
