@@ -1,5 +1,5 @@
 module.exports = {
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
     plugins: ['react', 'prettier', 'jest'],
     env: {
         browser: true,
@@ -11,18 +11,18 @@ module.exports = {
     },
     extends: [
         'airbnb',
+        'prettier',
         'plugin:prettier/recommended',
-        'prettier/react',
-        'prettier/standard',
         'plugin:jest/recommended',
     ],
     rules: {
         indent: 0,
         camelcase: 0,
         'no-underscore-dangle': 0,
-
         'prettier/prettier': 'error',
-
+        'class-methods-use-this': 0,
+        'react/function-component-definition': 0,
+        'react/no-unknown-property': ['error', { ignore: ['css'] }],
         'react/jsx-indent': 0,
         'react/jsx-indent-props': 0,
         'react/jsx-filename-extension': 0,
@@ -34,6 +34,6 @@ module.exports = {
         'react/jsx-fragments': 0,
         'prettier/prettier': 0,
         'react/no-danger': 0,
-        'no-console': 0
+        'no-console': 0,
     },
 };

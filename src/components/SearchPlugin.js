@@ -91,11 +91,6 @@ class App extends Component {
             'rsConfig',
             defaultPreferences.themeSettings.rsConfig,
         );
-        this.themeType = get(
-            this.themeSettings,
-            'type',
-            defaultPreferences.themeSettings.type,
-        );
         this.pageSettings = get(this.preferences, 'pageSettings', {});
         this.componentSettings = get(
             this.pageSettings,

@@ -1,51 +1,39 @@
 {
-    "name": "reactivesearch-shopify-plugin",
+    "name": "geo-search-template",
     "version": "0.2.0",
     "private": true,
-    "author": {
-        "name": "Divyanshu Maithani",
-        "email": "div.blackcat@gmail.com",
-        "url": "https://github.com/divyanshu013"
-    },
     "dependencies": {
         "@appbaseio/reactivemaps": "3.0.0",
         "@appbaseio/reactivesearch": "^3.42.1",
         "@emotion/core": "^10.0.35",
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/react": "^13.4.0",
+        "@testing-library/user-event": "^13.5.0",
         "antd": "3.26.20",
-        "babel-eslint": "^10.1.0",
         "dompurify": "^2.3.6",
         "emotion": "10.0.27",
         "lodash.get": "4.4.2",
         "prop-types": "15.7.2",
-        "react": "17.0.2",
-        "react-dom": "17.0.2",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
         "react-helmet": "^6.1.0",
         "react-highlight-words": "0.16.0",
         "react-router-dom": "^4.3.1",
-        "react-scripts": "4.0.3"
-    },
-    "devDependencies": {
-        "babel-plugin-direct-import": "0.6.2",
-        "babel-plugin-emotion": "10.0.33",
-        "babel-plugin-import": "1.13.1",
-        "customize-cra": "^1.0.0",
-        "eslint": "7.12.0",
-        "eslint-config-airbnb": "18.2.0",
-        "eslint-config-prettier": "6.14.0",
-        "eslint-plugin-import": "2.22.1",
-        "eslint-plugin-jest": "24.1.0",
-        "eslint-plugin-jsx-a11y": "6.4.0",
-        "eslint-plugin-prettier": "3.1.4",
-        "eslint-plugin-react": "7.21.5",
-        "prettier": "2.1.2",
-        "react-app-rewired": "^2.1.6"
+        "react-scripts": "5.0.1",
+        "web-vitals": "^2.1.4"
     },
     "scripts": {
-        "start": "PORT=1358 react-app-rewired start",
-        "build": "react-app-rewired build",
-        "test": "react-app-rewired test --env=jsdom",
+        "start": "PORT=1358 react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
         "eject": "react-scripts eject",
         "lint": "eslint ."
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
     },
     "browserslist": {
         "production": [
@@ -60,6 +48,19 @@
         ]
     },
     "engines": {
-        "node": ">=16.x <17"
+        "node": ">=16.x <19"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.20.5",
+        "@babel/eslint-parser": "^7.19.1",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^8.29.0",
+        "eslint-config-airbnb": "^19.0.4",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-prettier": "3.1.4",
+        "eslint-plugin-react": "^7.31.11",
+        "prettier": "^2.8.1",
+        "pretty-quick": "^3.1.3"
     }
 }

@@ -338,11 +338,6 @@ class Search extends Component {
         }
     };
 
-    getMultiListProps = (listComponentProps) => {
-        const { title, ...restProps } = listComponentProps;
-        return restProps;
-    };
-
     handleToggleFilter = () => {
         this.setState(({ toggleFilters }) => ({
             toggleFilters: !toggleFilters,
@@ -358,9 +353,7 @@ class Search extends Component {
         return fontFamily ? { fontFamily } : {};
     };
 
-    isMobile = () => {
-        return window.innerWidth <= 768;
-    };
+    isMobile = () => window.innerWidth <= 768;
 
     renderCategorySearch = (categorySearchProps) => {
         const { toggleFilters, value } = this.state;
@@ -429,17 +422,15 @@ class Search extends Component {
                 onChange={(val) => {
                     this.setState({ value: val });
                 }}
-                renderItem={(suggestion) => {
-                    return (
-                        <Suggestion
-                            suggestion={suggestion}
-                            fields={get(this.searchSettings, 'fields', {})}
-                            themeConfig={this.theme}
-                            highlight={this.searchSettings.rsConfig.highlight}
-                            currentValue={value}
-                        />
-                    );
-                }}
+                renderItem={(suggestion) => (
+                    <Suggestion
+                        suggestion={suggestion}
+                        fields={get(this.searchSettings, 'fields', {})}
+                        themeConfig={this.theme}
+                        highlight={this.searchSettings.rsConfig.highlight}
+                        currentValue={value}
+                    />
+                )}
                 {...categorySearchProps}
                 showDistinctSuggestions
                 highlight={get(this.resultSettings, 'resultHighlight', false)}

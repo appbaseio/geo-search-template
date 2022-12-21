@@ -177,6 +177,7 @@ function GeoResultsLayout({
                     }}
                     showMarkerClusters={showMarkerClusters}
                     showSearchAsMove={showSearchAsMove}
+                    // eslint-disable-next-line
                     onPopoverClick={(item) => {
                         const handle = isPreview
                             ? ''
@@ -403,6 +404,7 @@ function GeoResultsLayout({
                     }}
                     showMarkerClusters={showMarkerClusters}
                     showSearchAsMove={showSearchAsMove}
+                    // eslint-disable-next-line
                     onPopoverClick={(item) => {
                         const handle = isPreview
                             ? ''
