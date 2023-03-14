@@ -5,8 +5,9 @@ import React, { Component } from 'react';
 import {
     ReactiveBase,
     SelectedFilters,
-    ReactiveComponent,
+    SearchBox,
     componentTypes,
+    ReactiveComponent,
 } from '@appbaseio/reactivesearch';
 import get from 'lodash.get';
 import { string, bool } from 'prop-types';
@@ -373,7 +374,7 @@ class Search extends Component {
         );
 
         return (
-            <ReactiveComponent
+            <SearchBox
                 preferencesPath={`pageSettings.pages.${this.pageSettings.currentPage}.componentSettings.search`}
                 dataField={[
                     getDataFieldValue(
