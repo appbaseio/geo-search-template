@@ -1,6 +1,6 @@
 import React from 'react';
 import get from 'lodash.get';
-import { ReactiveBase, DataSearch } from '@appbaseio/reactivesearch';
+import { ReactiveBase, SearchBox } from '@appbaseio/reactivesearch';
 import { getSearchPreferences } from '../utils';
 
 const SearchPage = () => {
@@ -17,7 +17,7 @@ const SearchPage = () => {
                 credentials={credentials}
                 preferences={preferences}
             >
-                <DataSearch
+                <SearchBox
                     componentId="search"
                     preferencesPath="pageSettings.pages.home.componentSettings.search"
                 />
