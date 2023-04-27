@@ -571,11 +571,15 @@ function transformPreferences(preferences) {
                     resultComponent.rsConfig.highlightConfig = resultComponent.resultHighlight
                         ? highlightConfig
                         : undefined;
+                    resultComponent.rsConfig.dataField =
+                        resultComponent.fields.title.dataField || 'title';
                 }
                 if (searchComponent) {
                     searchComponent.rsConfig.highlightConfig = searchComponent.highlight
                         ? highlightConfig
                         : undefined;
+                    searchComponent.rsConfig.dataField =
+                        searchComponent.fields.title.dataField || 'title';
                 }
             },
         );
