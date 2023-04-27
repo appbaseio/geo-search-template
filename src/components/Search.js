@@ -6,7 +6,7 @@ import {
     ReactiveBase,
     SelectedFilters,
     componentTypes,
-    ReactiveComponent,
+    ReactiveComponentPrivate as ReactiveComponent,
 } from '@appbaseio/reactivesearch';
 import get from 'lodash.get';
 import { string, bool } from 'prop-types';
