@@ -6,7 +6,8 @@ import {
     ReactiveBase,
     SelectedFilters,
     componentTypes,
-    ReactiveComponent,
+    ReactiveComponentPrivate as ReactiveComponent,
+    AIAnswer,
 } from '@appbaseio/reactivesearch';
 import get from 'lodash.get';
 import { string, bool } from 'prop-types';
@@ -704,7 +705,15 @@ class Search extends Component {
                                         : null
                                 }
                             /> */}
-
+                            {this.resultSettings.showAIAnswer ? (
+                                <AIAnswer
+                                    componentId="AI_ANSWER"
+                                    showIcon
+                                    react={{ and: 'search' }}
+                                    enterButton
+                                    showInput={false}
+                                />
+                            ) : null}
                             <GeoResultsLayout
                                 isPreview={isPreview}
                                 resultSettings={this.resultSettings}
