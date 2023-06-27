@@ -711,7 +711,6 @@ class Search extends Component {
                                     showIcon
                                     react={{ and: 'search' }}
                                     enterButton
-                                    showInput={false}
                                 />
                             ) : null}
                             <GeoResultsLayout
