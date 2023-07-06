@@ -8,8 +8,8 @@
         "url": "https://github.com/divyanshu013"
     },
     "dependencies": {
-        "@appbaseio/reactivemaps": "3.0.0",
-        "@appbaseio/reactivesearch": "latest",
+        "@appbaseio/reactivemaps": "4.0.0-rc",
+        "@appbaseio/reactivesearch": "4.0.0-rc.21",
         "@emotion/core": "^10.0.35",
         "antd": "3.26.20",
         "babel-eslint": "^10.1.0",
