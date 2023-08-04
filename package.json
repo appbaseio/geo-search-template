@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "@appbaseio/reactivemaps": "4.0.0-rc",
-        "@appbaseio/reactivesearch": "4.0.0-rc.21",
+        "@appbaseio/reactivesearch": "^4.0.0",
         "@emotion/core": "^10.0.35",
         "antd": "3.26.20",
         "babel-eslint": "^10.1.0",
